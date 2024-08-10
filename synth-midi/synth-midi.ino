@@ -8,6 +8,7 @@ std::map<uint8_t, int> keys;
 std::set<int> channels = { 1, 2, 3, 4, 5, 6, 7, 8 };
 const uint32_t release = 0;
 const uint8_t* tone_wave = sine_wave;
+int oct_offset = C2_MIDI;
 M5Canvas cv(&M5.Display);
 
 void on_note_on(uint8_t channel, uint8_t note, uint8_t velocity, uint16_t timestamp) {
@@ -16,6 +17,12 @@ void on_note_on(uint8_t channel, uint8_t note, uint8_t velocity, uint16_t timest
     int chan = *it;
     channels.erase(it);
     keys[note] = chan;
+    while (note < oct_offset) {
+        oct_offset -= 12;
+    }
+    while (note >= (oct_offset + 12 * 3)) {
+        oct_offset += 12;
+    }
     draw_keys();
 }
 
@@ -43,18 +50,18 @@ void draw_keys() {
     const int o = (M5.Display.width() - (1+(s+w)*7)*3) / 2 + 1;
     int oct = 1+(s+w)*7;
     for (int i=0; i < 3; ++i) {
-        cv.fillRect(oct*i+o+(s+w)*0, margin, w, wH, keys[48+12*i] == 0 ? WHITE : RED);
-        cv.fillRect(oct*i+o+(s+w)*1, margin, w, wH, keys[50+12*i] == 0 ? WHITE : YELLOW);
-        cv.fillRect(oct*i+o+(s+w)*2, margin, w, wH, keys[52+12*i] == 0 ? WHITE : GREEN);
-        cv.fillRect(oct*i+o+(s+w)*3, margin, w, wH, keys[53+12*i] == 0 ? WHITE : 0x07F9);
-        cv.fillRect(oct*i+o+(s+w)*4, margin, w, wH, keys[55+12*i] == 0 ? WHITE : BLUE);
-        cv.fillRect(oct*i+o+(s+w)*5, margin, w, wH, keys[57+12*i] == 0 ? WHITE : VIOLET);
-        cv.fillRect(oct*i+o+(s+w)*6, margin, w, wH, keys[59+12*i] == 0 ? WHITE : MAGENTA);
-        cv.fillRect(oct*i+o+w*1-b/2, margin, b, bH, keys[49+12*i] == 0 ? BLACK : ORANGE);
-        cv.fillRect(oct*i+o+w*2+s*1-b/2, margin, b, bH, keys[51+12*i] == 0 ? BLACK : GREENYELLOW);
-        cv.fillRect(oct*i+o+w*4+s*3-b/2, margin, b, bH, keys[54+12*i] == 0 ? BLACK : CYAN);
-        cv.fillRect(oct*i+o+w*5+s*4-b/2, margin, b, bH, keys[56+12*i] == 0 ? BLACK : PURPLE);
-        cv.fillRect(oct*i+o+w*6+s*5-b/2, margin, b, bH, keys[58+12*i] == 0 ? BLACK : PINK);
+        cv.fillRect(oct*i+o+(s+w)*0, margin, w, wH, keys[oct_offset+0+12*i] == 0 ? WHITE : RED);
+        cv.fillRect(oct*i+o+(s+w)*1, margin, w, wH, keys[oct_offset+2+12*i] == 0 ? WHITE : YELLOW);
+        cv.fillRect(oct*i+o+(s+w)*2, margin, w, wH, keys[oct_offset+4+12*i] == 0 ? WHITE : GREEN);
+        cv.fillRect(oct*i+o+(s+w)*3, margin, w, wH, keys[oct_offset+5+12*i] == 0 ? WHITE : 0x07F9);
+        cv.fillRect(oct*i+o+(s+w)*4, margin, w, wH, keys[oct_offset+7+12*i] == 0 ? WHITE : BLUE);
+        cv.fillRect(oct*i+o+(s+w)*5, margin, w, wH, keys[oct_offset+9+12*i] == 0 ? WHITE : VIOLET);
+        cv.fillRect(oct*i+o+(s+w)*6, margin, w, wH, keys[oct_offset+11+12*i] == 0 ? WHITE : MAGENTA);
+        cv.fillRect(oct*i+o+w*1-b/2, margin, b, bH, keys[oct_offset+1+12*i] == 0 ? BLACK : ORANGE);
+        cv.fillRect(oct*i+o+w*2+s*1-b/2, margin, b, bH, keys[oct_offset+3+12*i] == 0 ? BLACK : GREENYELLOW);
+        cv.fillRect(oct*i+o+w*4+s*3-b/2, margin, b, bH, keys[oct_offset+6+12*i] == 0 ? BLACK : CYAN);
+        cv.fillRect(oct*i+o+w*5+s*4-b/2, margin, b, bH, keys[oct_offset+8+12*i] == 0 ? BLACK : PURPLE);
+        cv.fillRect(oct*i+o+w*6+s*5-b/2, margin, b, bH, keys[oct_offset+10+12*i] == 0 ? BLACK : PINK);
     }
     M5.Display.startWrite();
     cv.pushSprite(0, M5.Display.height() / 2 - margin * 2);
