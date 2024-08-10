@@ -30,6 +30,7 @@ It's still just a simple demo for playing some notes (and chords), but now with 
 
 - After booting, the program will scan for Midi controllers and automatically connect to the first one it finds.
 - Press the <kbd>BtnA</kbd> button to toggle between sine and square wave instruments.
+- Press the <kbd>BtnB</kbd> button (M5StickC only) to flip the screen.
 - Only note on/off messages have been implemented.
 
 ![synth-midi](synth-midi.jpg)
