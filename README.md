@@ -2,9 +2,9 @@
 
 This is a simple project I created to study some of the audio capabilities of the M5Stack devices.
 
-- Targeted/tested device: M5Cardputer.
-
 ## Synth Scales
+> Targeted/tested device: **M5Cardputer**.
+>
 >`Speaker` and `Keyboard` are required.
 
 The very first project I created for the M5Cardputer.
@@ -19,7 +19,9 @@ It's a simple demo for playing some notes (using the `Speaker`) of a particular 
 ![synth-scales](synth-scales.jpg)
 
 ## Synth Midi
->`Speaker`, `BLE` and a Bluetooth Midi Controller required.
+> Targeted/tested device: **M5Cardputer** and **M5StickC Plus 2** (may work with **M5StickC Plus**, but has not been tested).
+>
+>`Speaker` (`Buzzer` for the M5StickC Plus 2), `BLE` and a Bluetooth Midi Controller required.
 >
 > External lib required: https://github.com/max22-/ESP32-BLE-MIDI
 
@@ -27,7 +29,8 @@ After creating the previous demo, I tried to create something similar but with M
 It's still just a simple demo for playing some notes (and chords), but now with more flexibility.
 
 - After booting, the program will scan for Midi controllers and automatically connect to the first one it finds.
-- Press the <kbd>BtnA</kbd> (`BtnG0`) button to toggle between sine and square wave instruments.
+- Press the <kbd>BtnA</kbd> button to toggle between sine and square wave instruments.
 - Only note on/off messages have been implemented.
 
 ![synth-midi](synth-midi.jpg)
+![synth-midi](synth-midi-stickc.jpg)
