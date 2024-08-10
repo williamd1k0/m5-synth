@@ -38,6 +38,12 @@ void on_note_off(uint8_t channel, uint8_t note, uint8_t velocity, uint16_t times
     draw_keys();
 }
 
+void on_control_change(uint8_t channel, uint8_t controller, uint8_t value, uint16_t timestamp) {
+    if (controller == CC_VOLUME) {
+        M5.Speaker.setVolume(value<<1);
+    }
+}
+
 void draw_keys() {
     const int margin = 3;
     cv.createSprite(M5.Display.width(), M5.Display.height() / 2 + margin * 2);
@@ -79,7 +85,7 @@ void setup() {
     M5.Display.setTextDatum(middle_center);
     M5.Display.drawString("Midi", M5.Display.width() / 2, M5.Display.height() / 4);
     M5.Speaker.setVolume(255);
-    Serial.begin(115200);
+    Serial.begin(300);
     switch (M5.getBoard()) {
         default:
             BLEMidiClient.begin("M5Stack");
@@ -118,6 +124,7 @@ void loop() {
             if(BLEMidiClient.connect(0)) {
                 BLEMidiClient.setNoteOnCallback(on_note_on);
                 BLEMidiClient.setNoteOffCallback(on_note_off);
+                BLEMidiClient.setControlChangeCallback(on_control_change);
             }
             else {
                 Serial.println("Connection failed");
